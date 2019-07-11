@@ -1,6 +1,4 @@
-import bwapi.BWClient;
-import bwapi.DefaultBWListener;
-import bwapi.Game;
+import bwapi.*;
 
 public class ExampleBot extends DefaultBWListener {
     BWClient bwClient;
@@ -13,7 +11,24 @@ public class ExampleBot extends DefaultBWListener {
 
     @Override
     public void onFrame() {
-        game.drawTextScreen(100, 100, "Hello World!");
+        Player self = game.self();
+        game.drawTextScreen(20, 20, self.getName() + " has " + self.minerals() + " minerals");
+    }
+
+    @Override
+    public void onUnitComplete(Unit unit) {
+        if (unit.getType().isWorker()) {
+            Unit closestMineral = null;
+            int closestDistance = Integer.MAX_VALUE;
+            for (Unit mineral : game.getMinerals()) {
+                int distance = unit.getDistance(mineral);
+                if (distance < closestDistance) {
+                    closestMineral = mineral;
+                    closestDistance = distance;
+                }
+            }
+            unit.gather(closestMineral);
+        }
     }
 
     void run() {
