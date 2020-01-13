@@ -13,6 +13,17 @@ public class ExampleBot extends DefaultBWListener {
     public void onFrame() {
         Player self = game.self();
         game.drawTextScreen(20, 20, self.getName() + " has " + self.minerals() + " minerals");
+
+        // Train units while we can
+        for (Unit trainer : self.getUnits()) {
+            UnitType unitType = trainer.getType();
+            if (unitType.isBuilding() && !unitType.buildsWhat().isEmpty()) {
+                UnitType toTrain = unitType.buildsWhat().get(0);
+                if (game.canMake(toTrain, trainer)) {
+                    trainer.train(toTrain);
+                }
+            }
+        }
     }
 
     @Override
