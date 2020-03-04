@@ -19,7 +19,7 @@
         <dependency>
             <groupId>com.github.JavaBWAPI</groupId>
             <artifactId>JBWAPI</artifactId>
-            <version>1.1</version>
+            <version>1.2.0</version>
         </dependency>
     </dependencies>
 
